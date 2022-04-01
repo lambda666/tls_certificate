@@ -23,9 +23,7 @@
 #
 
 
-PROJECT_NAME="ESP32 TLS Project"
-
-PASSWORD="esp32"
+PROJECT_NAME="my TLS Project"
 
 # Generate the openssl configuration files.
 cat > ca_cert.conf << EOF  
@@ -60,11 +58,9 @@ EOF
 mkdir -p ca
 mkdir -p server
 mkdir -p client
-mkdir -p certDER
 
 # private key generation
 echo "------------------private key generation"
-#-des3 -passout pass:$PASSWORD
 openssl genrsa -out ca.key 2048
 openssl genrsa -out server.key 2048
 openssl genrsa -out client.key 2048
@@ -95,11 +91,9 @@ openssl x509 -in client.crt -outform DER -out client.der
 
 cat ca.crt > ca.pem
 
-mv -f ca.crt ca.key ca.pem ca/
-mv -f server.crt server.key server/
-mv -f client.crt client.key client/
-
-mv -f ca.der server.der client.der certDER/
+mv -f ca.crt ca.key ca.der ca.pem ca/
+mv -f server.crt server.key server.der server/
+mv -f client.crt client.key client.der client/
 
 rm *.conf
 rm *.req
